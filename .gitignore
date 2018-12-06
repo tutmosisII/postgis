@@ -1,0 +1,7 @@
+secret/
+**.log
+**.out
+out/
+**tmp/
+synckaretico.sh
+.idea/
