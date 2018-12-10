@@ -13,11 +13,13 @@ cat /tmp/out.sql|grep -i insert > /tmp/inserts.sql
 sed 's/values/\nvalues\n/i' /tmp/inserts.sql|head -1 2>&1 > /tmp/finalInsert.sql
 echo "VALUES" >> /tmp/finalInsert.sql
 sed 's/values/\nvalues\n/i' /tmp/inserts.sql|grep -Eiv "insert|values" >> /tmp/finalInsert.sql
+sed -i "s/NULL/'NULL'/g" /tmp/finalInsert.sql
 sed -i 's/);/),/' /tmp/finalInsert.sql
 sed -i '$ s/),/);/' /tmp/finalInsert.sql
 python2 GeoBolivia.py $SHAPE_FILE_NAME
 grep -i insert -m 1 -B100 /tmp/out.sql |grep -vi insert > /tmp/head.sql
 tail -3 /tmp/out.sql > /tmp/tail.sql
+sed -i "s/'NULL'/NULL/g" /tmp/finalInsert2.sql
 cat /tmp/head.sql /tmp/finalInsert2.sql /tmp/tail.sql > /tmp/$SHAPE_FILE_NAME.sql
 ###############################################################################
 #   CLEANING PROCESS
